@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 - `AUTHORIZATION_TOKEN` — Токен для работы с Api https://dvmn.org/api/docs/
 - `TELEGRAM_TOKEN` — Токен для телеграмм бота получаете при создании телеграмм бота на канале в телеграм @BotFather
-- `CHAT_TELEGRAM_ID` — ID телеграмм чата, где планируете постить фото
+- `CHAT_TELEGRAM_ID` — ID телеграмм чата, где планируете получать уведомления
 
 ## Телеграм БОТ
 

@@ -12,6 +12,7 @@ def get_notifications(url, headers):
                 'timestamp': response.json().get('timestamp_to_request'),
             }
             new_response = requests.get(url, headers=headers, params=params)
+            new_response.raise_for_status()
             return new_response.json()
         else:
             return response.json()

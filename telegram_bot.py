@@ -44,8 +44,9 @@ def main():
         except requests.exceptions.ReadTimeout:
             print('Повтор запроса')
             continue
-        except ConnectionError:
+        except requests.exceptions.ConnectionError:
             print('Сбой соединения!')
+            time.sleep(10)
         except telegram.error.TelegramError:
             print('Ошибка!')
             time.sleep(10)

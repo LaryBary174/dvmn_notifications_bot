@@ -17,7 +17,7 @@ def get_notifications(url, headers):
         repeated_response.raise_for_status()
         return repeated_response.json()
     else:
-        return response.json()
+        return notifications
 
 
 def main():

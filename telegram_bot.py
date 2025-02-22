@@ -42,16 +42,24 @@ def main():
 
 
         except requests.exceptions.ReadTimeout:
-            print('Повтор запроса')
+            error_message = 'Повтор запроса'
+            print(error_message)
+            bot.send_message(chat_id=chat_id, text=error_message)
             continue
         except requests.exceptions.ConnectionError:
-            print('Сбой соединения!')
+            error_message = 'Сбой соединения'
+            print(error_message)
+            bot.send_message(chat_id=chat_id, text=error_message)
             time.sleep(10)
         except telegram.error.TelegramError:
-            print('Ошибка!')
+            error_message = 'Ошибка'
+            print(error_message)
+            bot.send_message(chat_id=chat_id, text=error_message)
             time.sleep(10)
         except telegram.error.NetworkError:
-            print('Ошибка подключения')
+            error_message = 'Ошибка подключения'
+            print(error_message)
+            bot.send_message(chat_id=chat_id, text=error_message)
             time.sleep(10)
 
 

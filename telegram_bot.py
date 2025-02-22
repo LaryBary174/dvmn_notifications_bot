@@ -3,6 +3,7 @@ import time
 import telegram
 import requests
 from environs import Env
+from bot_for_logging import get_logger
 
 
 def get_notifications(url, headers):
@@ -28,8 +29,11 @@ def main():
         'Authorization': f'{env.str('AUTHORIZATION_TOKEN')}'
     }
     bot_token = env.str('TELEGRAM_TOKEN')
+    bot_log_token = env.str('TG_LOG_TOKEN')
     chat_id = env.str('TELEGRAM_CHAT_ID')
     bot = telegram.Bot(token=bot_token)
+    logger_bot = telegram.Bot(token=bot_log_token)
+    logger = get_logger(logger_bot, chat_id)
     while True:
         try:
             notifications = get_notifications(url, headers)
@@ -42,24 +46,20 @@ def main():
 
 
         except requests.exceptions.ReadTimeout:
-            error_message = 'Повтор запроса'
-            print(error_message)
-            bot.send_message(chat_id=chat_id, text=error_message)
+            logger.warning('Повтор запроса')
+
             continue
         except requests.exceptions.ConnectionError:
-            error_message = 'Сбой соединения'
-            print(error_message)
-            bot.send_message(chat_id=chat_id, text=error_message)
+            logger.error('Ошибка соединения, повторная попытка через 10 секунд')
+
             time.sleep(10)
         except telegram.error.TelegramError:
-            error_message = 'Ошибка'
-            print(error_message)
-            bot.send_message(chat_id=chat_id, text=error_message)
+            logger.error('Ошибка Телеграмм, повторная попытка через 10 секунд')
+
             time.sleep(10)
         except telegram.error.NetworkError:
-            error_message = 'Ошибка подключения'
-            print(error_message)
-            bot.send_message(chat_id=chat_id, text=error_message)
+            logger.error('Ошибка подключения, повторная попытка через 10 сек')
+
             time.sleep(10)
 
 
